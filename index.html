@@ -213,6 +213,53 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-CVE-2017-8890 漏洞分析和利用" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/02/26/CVE-2017-8890 漏洞分析和利用/" class="article-date">
+      <time datetime="2018-02-26T12:37:37.714Z" itemprop="datePublished">2018-02-26</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h2 id="CVE-2017-8890-漏洞分析和利用"><a href="#CVE-2017-8890-漏洞分析和利用" class="headerlink" title="CVE-2017-8890 漏洞分析和利用"></a>CVE-2017-8890 漏洞分析和利用</h2><h3 id="利用"><a href="#利用" class="headerlink" title="利用"></a>利用</h3><p>heap spray，用相似类型的obj进行占位，用的是<code>ipv6_mc_socklist</code>去占位<code>ip_mc_socklist</code>，kmalloc 64</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">ip_mc_socklist</span> &#123;</span></span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">ip_mc_socklist</span> __<span class="title">rcu</span> *<span class="title">next_rcu</span>;</span></span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">ip_mreqn</span>		<span class="title">multi</span>;</span></span><br><span class="line">	<span class="keyword">unsigned</span> <span class="keyword">int</span>		sfmode;		<span class="comment">/* MCAST_&#123;INCLUDE,EXCLUDE&#125; */</span></span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">ip_sf_socklist</span> __<span class="title">rcu</span>	*<span class="title">sflist</span>;</span></span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">rcu_head</span>		<span class="title">rcu</span>;</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">ipv6_mc_socklist</span> &#123;</span></span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">in6_addr</span>		<span class="title">addr</span>;</span></span><br><span class="line">	<span class="keyword">int</span>			ifindex;</span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">ipv6_mc_socklist</span> __<span class="title">rcu</span> *<span class="title">next</span>;</span></span><br><span class="line">	<span class="keyword">rwlock_t</span>		sflock;</span><br><span class="line">	<span class="keyword">unsigned</span> <span class="keyword">int</span>		sfmode;		<span class="comment">/* MCAST_&#123;INCLUDE,EXCLUDE&#125; */</span></span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">ip6_sf_socklist</span>	*<span class="title">sflist</span>;</span></span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">rcu_head</span>		<span class="title">rcu</span>;</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">ipv6_sock_mc_join</span><span class="params">(struct sock *sk, <span class="keyword">int</span> ifindex, <span class="keyword">const</span> struct in6_addr *addr)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">net_device</span> *<span class="title">dev</span> = <span class="title">NULL</span>;</span></span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">ipv6_mc_socklist</span> *<span class="title">mc_lst</span>;</span></span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">ipv6_pinfo</span> *<span class="title">np</span> = <span class="title">inet6_sk</span>(<span class="title">sk</span>);</span></span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">net</span> *<span class="title">net</span> = <span class="title">sock_net</span>(<span class="title">sk</span>);</span></span><br><span class="line">	<span class="keyword">int</span> err;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (!ipv6_addr_is_multicast(addr))</span><br><span class="line">		<span class="keyword">return</span> -EINVAL;</span><br><span class="line"></span><br><span class="line">	rcu_read_lock();</span><br><span class="line">	for_each_pmc_rcu(np, mc_lst) &#123;</span><br><span class="line">		<span class="keyword">if</span> ((ifindex == <span class="number">0</span> || mc_lst-&gt;ifindex == ifindex) &amp;&amp;</span><br><span class="line">		    ipv6_addr_equal(&amp;mc_lst-&gt;addr, addr)) &#123;</span><br><span class="line">			rcu_read_unlock();</span><br><span class="line">			<span class="keyword">return</span> -EADDRINUSE;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	rcu_read_unlock();</span><br><span class="line"></span><br><span class="line">	mc_lst = sock_kmalloc(sk, <span class="keyword">sizeof</span>(struct ipv6_mc_socklist), GFP_KERNEL);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (mc_lst == <span class="literal">NULL</span>)</span><br><span class="line">		<span class="keyword">return</span> -ENOMEM;</span><br><span class="line"></span><br><span class="line">	mc_lst-&gt;next = <span class="literal">NULL</span>;</span><br><span class="line">	mc_lst-&gt;addr = *addr;</span><br><span class="line"></span><br><span class="line">	rtnl_lock();</span><br><span class="line">	<span class="keyword">if</span> (ifindex == <span class="number">0</span>) &#123;</span><br><span class="line">		<span class="class"><span class="keyword">struct</span> <span class="title">rt6_info</span> *<span class="title">rt</span>;</span></span><br><span class="line">		rt = rt6_lookup(net, addr, <span class="literal">NULL</span>, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">		<span class="keyword">if</span> (rt) &#123;</span><br><span class="line">			dev = rt-&gt;dst.dev;</span><br><span class="line">			ip6_rt_put(rt);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125; <span class="keyword">else</span></span><br><span class="line">		dev = __dev_get_by_index(net, ifindex);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (dev == <span class="literal">NULL</span>) &#123;</span><br><span class="line">		rtnl_unlock();</span><br><span class="line">		sock_kfree_s(sk, mc_lst, <span class="keyword">sizeof</span>(*mc_lst));</span><br><span class="line">		<span class="keyword">return</span> -ENODEV;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	mc_lst-&gt;ifindex = dev-&gt;ifindex;</span><br><span class="line">	mc_lst-&gt;sfmode = MCAST_EXCLUDE;</span><br><span class="line">	rwlock_init(&amp;mc_lst-&gt;sflock);</span><br><span class="line">	mc_lst-&gt;sflist = <span class="literal">NULL</span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/*</span></span><br><span class="line"><span class="comment">	 *	now add/increase the group membership on the device</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line"></span><br><span class="line">	err = ipv6_dev_mc_inc(dev, addr);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (err) &#123;</span><br><span class="line">		rtnl_unlock();</span><br><span class="line">		sock_kfree_s(sk, mc_lst, <span class="keyword">sizeof</span>(*mc_lst));</span><br><span class="line">		<span class="keyword">return</span> err;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	mc_lst-&gt;next = np-&gt;ipv6_mc_list;</span><br><span class="line">	rcu_assign_pointer(np-&gt;ipv6_mc_list, mc_lst);</span><br><span class="line"></span><br><span class="line">	rtnl_unlock();</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-chrome安装插件重启后无效" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -292,12 +339,10 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <h1 id="新博客搬家"><a href="#新博客搬家" class="headerlink" title="新博客搬家"></a>新博客搬家</h1><pre><code>自第一次写博客至近，大概已逾5年。期间经历过博客园、CSDN、简书等博客网站。也曾搭过自己的博客，想必是当初觉得域名不够酷且不是独立域名(使用xxx.github.io)，故而没有继续维护。
+        <h1 id="新博客搬家"><a href="#新博客搬家" class="headerlink" title="新博客搬家"></a>新博客搬家</h1><p>自第一次写博客至近，大概已逾5年。期间经历过博客园、CSDN、简书等博客网站。也曾搭过自己的博客，想必是当初觉得域名不够酷且不是独立域名(使用xxx.github.io)，故而没有继续维护。</p>
+<p>之前在CSDN时，写过一些技术文章(几十篇，如今能入目的屈指可数)，以文也会过几位技术好友。CSDN原则上是不允许写技术无关的事儿的(目前更加严厉，我的几篇与技术无关的文章都被禁了)，后来就单独迁至简书一吐内心肿胀。至今，与那些文字相关的人儿和事儿，回忆都是美好的。</p>
+<p>文字有说不出的魔力。心有所想，落在笔尖，文成时，无比充实，打磨后，无比满足。但记得斑斑点点，几番陈迹，其最大的魔力，便是几番岁月回首看，又有说不出的感动。今天注册并买下了一个域名<code>www.long-river.org</code>,对此我相当满意。故而最后又搭建了基于hexo系统的博客，予以域名，以后便可不顾文章种类，肆意文字的汪洋了。</p>
 
-之前在CSDN时，写过一些技术文章(几十篇，如今能入目的屈指可数)，以文也会过几位技术好友。CSDN原则上是不允许写技术无关的事儿的(目前更加严厉，我的几篇与技术无关的文章都被禁了)，后来就单独迁至简书一吐内心肿胀。至今，与那些文字相关的人儿和事儿，回忆都是美好的。
-
-文字有说不出的魔力。心有所想，落在笔尖，文成时，无比充实，打磨后，无比满足。但记得斑斑点点，几番陈迹，其最大的魔力，便是几番岁月回首看，又有说不出的感动。今天注册并买下了一个域名`www.long-river.org`,对此我相当满意。故而最后又搭建了基于hexo系统的博客，予以域名，以后便可不顾文章种类，肆意文字的汪洋了。
-</code></pre>
       
       
     </div>
