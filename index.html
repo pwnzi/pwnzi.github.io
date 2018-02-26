@@ -53,6 +53,7 @@
     <div class="overlay"></div>
 <div class="intrude-less">
     <header id="header" class="inner">
+	    <p>但记得斑斑点点，几行陈迹</p>
         <a href="/" class="profilepic">
             
             <img lazy-src="/img/head.jpg" class="js-avatar">
@@ -208,6 +209,58 @@
     </div>
 </nav>
       <div class="body-wrap">
+  
+    <article id="post-ubuntu17_enp2sp网卡不工作" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/02/26/ubuntu17_enp2sp网卡不工作/" class="article-date">
+      <time datetime="2018-02-26T10:44:41.405Z" itemprop="datePublished">2018-02-26</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h1 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h1><p>我的原因是由于 chrome权限配置不当(估计是之前用root权限运行过 google-chrome-stable 命令)。</p>
+<p>修改成合适的权限:</p>
+<pre><code>1. 查找配置文件
+    river@xxxx:~$ locate Preference|grep chr
+    /home/river/.config/google-chrome/Default/Preferences
+    /home/river/.config/google-chrome/Default/Secure Preferences
+2. 修改权限
+    sudo chown river:river /home/river/.config/google-chrome/Default/Preferences
+    sudo chown river:river /home/river/.config/google-chrome/Default/Secure Preferences
+</code></pre>
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
   
     <article id="post-test-my-site" class="article article-type-post" itemscope itemprop="blogPost">
   
