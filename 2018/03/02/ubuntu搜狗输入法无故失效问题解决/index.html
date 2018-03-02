@@ -11,7 +11,7 @@
 <meta property="og:url" content="http://www.long-river.org/2018/03/02/ubuntu搜狗输入法无故失效问题解决/index.html">
 <meta property="og:site_name" content="但记得斑斑点点,几行陈迹">
 <meta property="og:description" content="解决方法12345#!/bin/shpidof fcitx | xargs killpidof sogou-qimpanel | xargs killnohup fcitx  1&amp;gt;/dev/null 2&amp;gt;/dev/null &amp;amp;nohup sogou-qimpanel  1&amp;gt;/dev/null 2&amp;gt;/dev/null &amp;amp; 执行如下脚本，即可使搜狗输入法生效 其">
-<meta property="og:updated_time" content="2018-03-02T09:17:39.124Z">
+<meta property="og:updated_time" content="2018-03-02T09:33:45.721Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ubuntu搜狗输入法无故失效问题解决">
 <meta name="twitter:description" content="解决方法12345#!/bin/shpidof fcitx | xargs killpidof sogou-qimpanel | xargs killnohup fcitx  1&amp;gt;/dev/null 2&amp;gt;/dev/null &amp;amp;nohup sogou-qimpanel  1&amp;gt;/dev/null 2&amp;gt;/dev/null &amp;amp; 执行如下脚本，即可使搜狗输入法生效 其">
@@ -246,9 +246,9 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <h1 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>!/bin/sh</span><br><span class="line">pidof fcitx | xargs kill</span><br><span class="line">pidof sogou-qimpanel | xargs kill</span><br><span class="line">nohup fcitx  1&gt;/dev/null 2&gt;/dev/null &amp;</span><br><span class="line">nohup sogou-qimpanel  1&gt;/dev/null 2&gt;/dev/null &amp;</span><br></pre></td></tr></table></figure>
+        <h1 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">!/bin/sh</span></span><br><span class="line">pidof fcitx | xargs kill</span><br><span class="line">pidof sogou-qimpanel | xargs kill</span><br><span class="line">nohup fcitx  1&gt;/dev/null 2&gt;/dev/null &amp;</span><br><span class="line">nohup sogou-qimpanel  1&gt;/dev/null 2&gt;/dev/null &amp;</span><br></pre></td></tr></table></figure>
 <p>执行如下脚本，即可使搜狗输入法生效</p>
-<h1 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h1><p>Ubuntu作为工作环境是相当不错的，但是它的字体问题和输入法问题一直是短项。<br>nohup 作用是是的目标进程永久执行，不被打断。而$是确保进程在后台运行。</p>
+<h1 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h1><p>Ubuntu作为工作环境是相当不错的，但是它的字体问题和输入法问题一直是短项。<br><code>nohup</code> 作用是是的目标进程永久执行，不被打断。而<code>&amp;</code>是确保进程在后台运行。</p>
 
       
       
@@ -307,7 +307,7 @@
         <p><span>本文标题:</span><a href="/2018/03/02/ubuntu搜狗输入法无故失效问题解决/">ubuntu搜狗输入法无故失效问题解决</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 江 的个人博客">江</a></p>
         <p><span>发布时间:</span>2018年03月02日 - 12时09分</p>
-        <p><span>最后更新:</span>2018年03月02日 - 17时17分</p>
+        <p><span>最后更新:</span>2018年03月02日 - 17时33分</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2018/03/02/ubuntu搜狗输入法无故失效问题解决/" title="ubuntu搜狗输入法无故失效问题解决">http://www.long-river.org/2018/03/02/ubuntu搜狗输入法无故失效问题解决/</a>
             <span class="copy-path" data-clipboard-text="原文: http://www.long-river.org/2018/03/02/ubuntu搜狗输入法无故失效问题解决/　　作者: 江" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
