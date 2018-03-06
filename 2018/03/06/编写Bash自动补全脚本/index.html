@@ -3,22 +3,19 @@
 <head>
   <meta charset="utf-8">
   
-  <title>对某AI音箱抓包和劫持之简要记录 | 但记得斑斑点点,几行陈迹</title>
+  <title>编写Bash自动补全脚本 | 但记得斑斑点点,几行陈迹</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="一.AI IoT 设备市场火热&amp;emsp;&amp;emsp;最近一段时间断断续续和水哥一起研究了一些IoT设备(英:Internet of Things,中:物联网,一般采用其缩写称呼)。前前后后大约占六七台左右。估计以后仍会有机会接触并研究。其中，冠以AI名头的设备十之八九。很多都是基于某些AI服务商提供的解决方案而后做出产品。所以针对AI IoT设备将会是一个不错的安全研究方向。网络抓包和劫持是针对">
-<meta name="keywords" content="技巧">
+  <meta name="description" content="前言&amp;emsp;&amp;emsp;虽然天天使用Bash，但还是得说，我对Bash的掌握简直是皮毛。有很多时候，Bash的高级功能可是你的工作事半功倍。最近看到一篇文章不错，这次主要介绍的是bash的补全功能，并以此来实现一些有意思的脚本。 链接地址:click 代码1234567891011121314151617181920212223242526272829303132333435363738394">
+<meta name="keywords" content="Bash 脚本">
 <meta property="og:type" content="article">
-<meta property="og:title" content="对某AI音箱抓包和劫持之简要记录">
-<meta property="og:url" content="http://www.long-river.org/2018/03/01/对某AI音箱抓包和劫持之简要记录-md/index.html">
+<meta property="og:title" content="编写Bash自动补全脚本">
+<meta property="og:url" content="http://www.long-river.org/2018/03/06/编写Bash自动补全脚本/index.html">
 <meta property="og:site_name" content="但记得斑斑点点,几行陈迹">
-<meta property="og:description" content="一.AI IoT 设备市场火热&amp;emsp;&amp;emsp;最近一段时间断断续续和水哥一起研究了一些IoT设备(英:Internet of Things,中:物联网,一般采用其缩写称呼)。前前后后大约占六七台左右。估计以后仍会有机会接触并研究。其中，冠以AI名头的设备十之八九。很多都是基于某些AI服务商提供的解决方案而后做出产品。所以针对AI IoT设备将会是一个不错的安全研究方向。网络抓包和劫持是针对">
-<meta property="og:image" content="http://www.long-river.org/img/s1.png">
-<meta property="og:image" content="http://www.long-river.org/img/lALPBbCc1XKh9KbNAeXNBY8_1423_485.png">
-<meta property="og:updated_time" content="2018-03-02T09:15:24.815Z">
+<meta property="og:description" content="前言&amp;emsp;&amp;emsp;虽然天天使用Bash，但还是得说，我对Bash的掌握简直是皮毛。有很多时候，Bash的高级功能可是你的工作事半功倍。最近看到一篇文章不错，这次主要介绍的是bash的补全功能，并以此来实现一些有意思的脚本。 链接地址:click 代码1234567891011121314151617181920212223242526272829303132333435363738394">
+<meta property="og:updated_time" content="2018-03-06T03:42:24.167Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="对某AI音箱抓包和劫持之简要记录">
-<meta name="twitter:description" content="一.AI IoT 设备市场火热&amp;emsp;&amp;emsp;最近一段时间断断续续和水哥一起研究了一些IoT设备(英:Internet of Things,中:物联网,一般采用其缩写称呼)。前前后后大约占六七台左右。估计以后仍会有机会接触并研究。其中，冠以AI名头的设备十之八九。很多都是基于某些AI服务商提供的解决方案而后做出产品。所以针对AI IoT设备将会是一个不错的安全研究方向。网络抓包和劫持是针对">
-<meta name="twitter:image" content="http://www.long-river.org/img/s1.png">
+<meta name="twitter:title" content="编写Bash自动补全脚本">
+<meta name="twitter:description" content="前言&amp;emsp;&amp;emsp;虽然天天使用Bash，但还是得说，我对Bash的掌握简直是皮毛。有很多时候，Bash的高级功能可是你的工作事半功倍。最近看到一篇文章不错，这次主要介绍的是bash的补全功能，并以此来实现一些有意思的脚本。 链接地址:click 代码1234567891011121314151617181920212223242526272829303132333435363738394">
   
     <link rel="alternative" href="/atom.xml" title="但记得斑斑点点,几行陈迹" type="application/atom+xml">
   
@@ -216,11 +213,11 @@
         </header>                
     </div>
 </nav>
-      <div class="body-wrap"><article id="post-对某AI音箱抓包和劫持之简要记录-md" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-编写Bash自动补全脚本" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/03/01/对某AI音箱抓包和劫持之简要记录-md/" class="article-date">
-      <time datetime="2018-03-01T08:28:40.000Z" itemprop="datePublished">2018-03-01</time>
+      <a href="/2018/03/06/编写Bash自动补全脚本/" class="article-date">
+      <time datetime="2018-03-06T03:12:37.000Z" itemprop="datePublished">2018-03-06</time>
 </a>
     </div>
   
@@ -233,7 +230,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      对某AI音箱抓包和劫持之简要记录
+      编写Bash自动补全脚本
     </h1>
   
 
@@ -244,7 +241,7 @@
 
         
     <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/技巧/">技巧</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Bash-脚本/">Bash 脚本</a></li></ul>
     </div>
 
         <div class="clearfix"></div>
@@ -254,48 +251,9 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <h1 id="一-AI-IoT-设备市场火热"><a href="#一-AI-IoT-设备市场火热" class="headerlink" title="一.AI IoT 设备市场火热"></a>一.AI IoT 设备市场火热</h1><p>&emsp;&emsp;最近一段时间断断续续和水哥一起研究了一些IoT设备(英:Internet of Things,中:物联网,一般采用其缩写称呼)。前前后后大约占六七台左右。估计以后仍会有机会接触并研究。其中，冠以AI名头的设备十之八九。很多都是基于某些AI服务<code></code>商提供的解决方案而后做出产品。所以针对AI IoT设备将会是一个不错的安全研究方向。网络抓包和劫持是针对某款IoT设备进行安全研究必不可少的步骤，此次博文简单记录之。</p>
-<h1 id="二-网络抓包"><a href="#二-网络抓包" class="headerlink" title="二.网络抓包"></a>二.网络抓包</h1><p>&emsp;&emsp;有很多AI IoT设备自身没有设置代理功能。其实，处于安全性考虑去掉代理功能是一个明智之举。但是我们仍然能在路由端进行抓包。</p>
-<table>
-<thead>
-<tr>
-<th>方案</th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>1</td>
-<td>在路由器上搭建抓包环境</td>
-</tr>
-<tr>
-<td>2</td>
-<td>通过无线网卡建立热点，然后在本地进行抓包</td>
-</tr>
-</tbody>
-</table>
-<h2 id="1-路由器端抓包"><a href="#1-路由器端抓包" class="headerlink" title="1.路由器端抓包"></a>1.路由器端抓包</h2><p>&emsp;&emsp;该款智能音箱没有代理功能，加上我通过无线网卡建立的热点这次无故不是很稳定，故而采取路由器端网络抓包。</p>
-<p>&emsp;&emsp;路由器端抓包工具首推tcpdump。当然由于笔者经验有限，tcpdump很多功能不甚了解。于主观来说，路由器端不能使用wireshark GUI界面(wireshark是否支持命令行界面，这个有待考究)，且tcpdump又有轻量级和可到处pcap格式文件(pcap文件可载入wireshark进行分析)，故而选择tcpdump。</p>
-<p>&emsp;&emsp;tcpdump虽然方便，但是想顺利的在不同架构环境下能正常工作，也并非易事。之前就有同事遇到过类似情况，下了tcpdump，但不能在目标机器上正常运行（后来我帮他解决了这个问题）。一般来说有两种主要情况：(1) 架构不匹配(x86,x86_64,armv5l,armv7l,arm64,ppc,mips …)。(2) 内核版本过低(或者说受内核API变动影响)</p>
-<p>&emsp;&emsp;那么在选择相应的tcpdump时，首先要搞清目标机器是什么架构。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ cat /proc/version <span class="comment">#或者下面这条命令</span></span><br><span class="line">$ uname -a</span><br></pre></td></tr></table></figure>
-<ol>
-<li><a href="https://github.com/andrew-d/static-binaries/blob/master/binaries/linux/arm/tcpdump" target="_blank" rel="noopener">github</a>，这里包含很多架构的tcpdump bin文件</li>
-<li><a href="https://www.androidtcpdump.com/" target="_blank" rel="noopener">android tcpdump</a></li>
-</ol>
-<p>&emsp;&emsp;此时，可以通过ssh工具(或其他的连接方式，比如telnet)连接至路由器的shell,并切换至root权限。执行如下命令：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tcpdump -i any -w out.pcap</span><br></pre></td></tr></table></figure>
-<p>其中<code>-i</code>参数可以指定具体的网卡名字，<code>any</code>表示是监控所有网卡，<code>-w</code>用于指定导出pcap格式文件的名字。</p>
-<p>&emsp;&emsp;抓包过后，就可以通过scp、winscap等工具(或者基于其他协议的工具)，将相应的pcap文件从服务器端拷贝至本地。接着就可以使用wireshark进行网络数据包的分析了。具体一些分析技巧下文继续。</p>
-<h2 id="2-本地抓包"><a href="#2-本地抓包" class="headerlink" title="2.本地抓包"></a>2.本地抓包</h2><p>&emsp;&emsp;本地抓包需要借助一个无线网卡。这种情形又可分为两种情况。一是你笔记本连接了有线，那么可以使用无线网卡建立热点。二是，你笔记本连接了无线，那么可以再插入一个无线网卡，然后建立热点。建立热点的方式有很多种，如果你用的是windows，那么你可以用一些免费wifi小工具进行建立。<br><img src="http://www.long-river.org/img/s1.png" alt="s1"></p>
-<p>&emsp;&emsp;抓包工具采用wireshark，这个不在过多阐述。不过，在使用wirshark时，有一些简单的过滤命令，还是提高很多工作效率的。比如:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ip.addr == 192.168.55.253 # 只看指定IP地址的相关包信息，注意格式和空格，这个要求很严格</span><br><span class="line">http # 只看http先关的包相信</span><br><span class="line">and # 与操作，同时匹配多个条件</span><br></pre></td></tr></table></figure>
-<p><img src="http://www.long-river.org/img/lALPBbCc1XKh9KbNAeXNBY8_1423_485.png" alt="s1"></p>
-<h2 id="3-劫持攻击"><a href="#3-劫持攻击" class="headerlink" title="3.劫持攻击"></a>3.劫持攻击</h2><p>&emsp;&emsp;对于IoT设备进行安全研究，其中App Store和OTA升级是重点的研究对象。因为这其中经常会存在Http劫持漏洞的存在。主要是由于一些程序员由于惰性和水平因素，仍然采用http传输数据。这样，我们就可以采取中间人攻击。中间人攻击劫持http，有很多攻击和方式可以选择。这里简单介绍笔者此次研究所采用的工具，dnsmaq和ncat。</p>
-<p>&emsp;&emsp;dnsmaq可以设置dns解析，进行域名劫持(openwrt有web界面端的域名解析配置)。root权限下执行:</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">cd /etc/dnsmasq.d/</span><br><span class="line">cp dnsmasq.conf dnsmasq.conf.bak</span><br><span class="line">touch attack.conf</span><br><span class="line">vim attack.conf</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 添加以下内容，示例</span></span></span><br><span class="line">address=/.long-river.org/192.168.59.12</span><br><span class="line">				#要劫持域名	#本地机器ip</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># kill掉之前的dns服务</span></span></span><br><span class="line">ps |grep dnsmaq # 查找目标pid</span><br><span class="line">kill 9 &lt;dnsmaq pid&gt;</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 启动dns</span></span></span><br><span class="line">dnsmaq --conf-dir=/etc/dnsmasq.d/</span><br></pre></td></tr></table></figure>
-<p>&emsp;&emsp;这样在访问 <a href="http://www.long-river.org">www.long-river.org</a> 时，访问就被劫持到本地了。如果本地搭建好了恶意服务器，那么就可以进行劫持攻击了，比如可以替换app store的下载文件。</p>
-<p>&emsp;&emsp;搭建简易web服务器有很多方法，然而ncat确是最便捷的一种方法。ncat堪称网络操作工具的瑞士军刀，比如上面你抓到了一个包，你可以模拟发送。nc <a href="http://www.test.com/" target="_blank" rel="noopener">http://www.test.com/</a> 80 &lt; 1.txt，可以发送GET和POST请求。具体的搭建步骤，这里不做过多阐述。</p>
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>&emsp;&emsp;虽然天天使用Bash，但还是得说，我对Bash的掌握简直是皮毛。有很多时候，Bash的高级功能可是你的工<br>作事半功倍。最近看到一篇文章不错，这次主要介绍的是bash的补全功能，并以此来实现一些有意思的脚本。</p>
+<p>链接地址:<a href="https://iridakos.com/tutorials/2018/03/01/bash-programmable-completion-tutorial.html" target="_blank" rel="noopener">click</a></p>
+<h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">/usr/bin/env bash</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> _dothis_completions()</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> &#123;</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 	<span class="comment"># COMPREPLAY+=("now")</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 	<span class="comment"># COMPREPLAY+=("tomorrow")</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 	<span class="comment"># COMPREPLAY+=("never")</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 	COMPREPLAY=($(compgen -W <span class="string">"now tomorrow never"</span> <span class="string">"<span class="variable">$&#123;COMP_WORDS[1]&#125;</span>"</span>))</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> &#125;</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> complete -W <span class="string">"now tomorrow never"</span> dothis</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> complete -F _dothis_completions dothis</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> _dothis_completions()</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> &#123;</span></span><br><span class="line"><span class="meta">#</span><span class="bash">   COMPREPLY=($(compgen -W <span class="string">"<span class="variable">$(fc -l -50 | sed 's/\t//')</span>"</span> -- <span class="string">"<span class="variable">$&#123;COMP_WORDS[1]&#125;</span>"</span>))</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> &#125;</span></span><br><span class="line"></span><br><span class="line">_dothis_completions()</span><br><span class="line">&#123;</span><br><span class="line">  if [ "$&#123;#COMP_WORDS[@]&#125;" != "2" ]; then</span><br><span class="line">    return</span><br><span class="line">  fi</span><br><span class="line"></span><br><span class="line">  local commands_number=$&#123;DOTHIS_COMPLETION_COMMANDS_NUMBER:-50&#125;</span><br><span class="line">  local IFS=$'\n'</span><br><span class="line">  local suggestions=($(compgen -W "$(fc -l -$commands_number | sed 's/\t//')" -- "$&#123;COMP_WORDS[1]&#125;"))</span><br><span class="line"></span><br><span class="line">  if [ "$&#123;#suggestions[@]&#125;" == "1" ]; then</span><br><span class="line">    local number="$&#123;suggestions[0]/%\ */&#125;"</span><br><span class="line">    COMPREPLY=("$number")</span><br><span class="line">  else</span><br><span class="line">    for i in "$&#123;!suggestions[@]&#125;"; do</span><br><span class="line">      suggestions[$i]="$(printf '%*s' "-$COLUMNS"  "$&#123;suggestions[$i]&#125;")"</span><br><span class="line">    done</span><br><span class="line"></span><br><span class="line">    COMPREPLY=("$&#123;suggestions[@]&#125;")</span><br><span class="line">  fi</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">complete -F _dothis_completions dothis</span><br></pre></td></tr></table></figure>
 
       
       
@@ -351,13 +309,13 @@
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a href="/2018/03/01/对某AI音箱抓包和劫持之简要记录-md/">对某AI音箱抓包和劫持之简要记录</a></p>
+        <p><span>本文标题:</span><a href="/2018/03/06/编写Bash自动补全脚本/">编写Bash自动补全脚本</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 江 的个人博客">江</a></p>
-        <p><span>发布时间:</span>2018年03月01日 - 16时28分</p>
-        <p><span>最后更新:</span>2018年03月02日 - 17时15分</p>
+        <p><span>发布时间:</span>2018年03月06日 - 11时12分</p>
+        <p><span>最后更新:</span>2018年03月06日 - 11时42分</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2018/03/01/对某AI音箱抓包和劫持之简要记录-md/" title="对某AI音箱抓包和劫持之简要记录">http://www.long-river.org/2018/03/01/对某AI音箱抓包和劫持之简要记录-md/</a>
-            <span class="copy-path" data-clipboard-text="原文: http://www.long-river.org/2018/03/01/对某AI音箱抓包和劫持之简要记录-md/　　作者: 江" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span>原始链接:</span><a class="post-url" href="/2018/03/06/编写Bash自动补全脚本/" title="编写Bash自动补全脚本">http://www.long-river.org/2018/03/06/编写Bash自动补全脚本/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://www.long-river.org/2018/03/06/编写Bash自动补全脚本/　　作者: 江" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script src="/js/clipboard.min.js"></script>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
@@ -370,18 +328,9 @@
 
 <nav id="article-nav">
   
-    <a href="/2018/03/02/ubuntu搜狗输入法无故失效问题解决/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption"><</strong>
-      <div class="article-nav-title">
-        
-          ubuntu搜狗输入法无故失效问题解决
-        
-      </div>
-    </a>
   
-  
-    <a href="/2018/02/27/CVE-2017-17712-Linux-kernel-漏洞分析-md/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">CVE-2017-17712_Linux_kernel_漏洞分析.md</div>
+    <a href="/2018/03/02/ubuntu搜狗输入法无故失效问题解决/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">ubuntu搜狗输入法无故失效问题解决</div>
       <strong class="article-nav-caption">></strong>
     </a>
   
@@ -392,7 +341,7 @@
 
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#一-AI-IoT-设备市场火热"><span class="toc-number">1.</span> <span class="toc-text">一.AI IoT 设备市场火热</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#二-网络抓包"><span class="toc-number">2.</span> <span class="toc-text">二.网络抓包</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-路由器端抓包"><span class="toc-number">2.1.</span> <span class="toc-text">1.路由器端抓包</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-本地抓包"><span class="toc-number">2.2.</span> <span class="toc-text">2.本地抓包</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-劫持攻击"><span class="toc-number">2.3.</span> <span class="toc-text">3.劫持攻击</span></a></li></ol></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#代码"><span class="toc-number">2.</span> <span class="toc-text">代码</span></a></li></ol>
 </div>
 <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
 
@@ -458,13 +407,11 @@
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/2018/03/02/ubuntu搜狗输入法无故失效问题解决/" title="上一篇: ubuntu搜狗输入法无故失效问题解决">
-                <i class="fa fa-angle-left"></i>
-            </a>
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
         
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
         
-            <a href="/2018/02/27/CVE-2017-17712-Linux-kernel-漏洞分析-md/" title="下一篇: CVE-2017-17712_Linux_kernel_漏洞分析.md">
+            <a href="/2018/03/02/ubuntu搜狗输入法无故失效问题解决/" title="下一篇: ubuntu搜狗输入法无故失效问题解决">
                 <i class="fa fa-angle-right"></i>
             </a>
         
